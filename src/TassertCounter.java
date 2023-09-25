@@ -32,7 +32,7 @@ public class TassertCounter {
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            System.out.println("File not found");
             e.printStackTrace();
         }
         System.out.println(assertions);

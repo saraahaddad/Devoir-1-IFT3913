@@ -9,8 +9,11 @@ sara
 whatever //
 
 assertEquals("moi","moi")
+assertions
+fail(cjkn)
 {fail()}
 // assert
 // fail
+fail
 System.out.println("assert")
 System.out.println("fail("FileNotFound")")
