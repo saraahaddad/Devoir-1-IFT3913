@@ -1,0 +1,16 @@
+hello
+my
+name
+is
+sara
+// lol test
+
+// herhehe
+whatever //
+
+assertEquals("moi","moi")
+{fail()}
+// assert
+// fail
+System.out.println("assert")
+System.out.println("fail("FileNotFound")")
