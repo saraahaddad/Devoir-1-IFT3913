@@ -7,13 +7,15 @@ sara
 
 // herhehe
 whatever //
-
+    assertEquals
 assertEquals("moi","moi")
 assertions
+
 fail(cjkn)
 {fail()}
+fail
 // assert
 // fail
-fail
+
 System.out.println("assert")
 System.out.println("fail("FileNotFound")")

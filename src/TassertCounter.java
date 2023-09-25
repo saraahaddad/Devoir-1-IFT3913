@@ -20,10 +20,8 @@ public class TassertCounter {
                 String data = myReader.nextLine();
 
                 if (!data.startsWith("//") && !data.startsWith("System.out.println")) {
-                    if (data.startsWith("assert")){
-                        if (pattern.matcher(data.substring(0,7)).matches() ) {
-                            assertions++;
-                        }
+                    if (data.contains("assert")){
+                        assertions++;
                     }
                     if (data.contains("fail")){
                         assertions++;
@@ -35,6 +33,6 @@ public class TassertCounter {
             System.out.println("File not found");
             e.printStackTrace();
         }
-        System.out.println(assertions);
+        System.out.println("TASSERT : " + assertions);
     }
 }

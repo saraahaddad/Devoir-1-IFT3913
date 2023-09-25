@@ -25,7 +25,7 @@ public class TlocCounter {
             }
 
             fileReader.close();
-            System.out.println(linesOfCode);
+            System.out.println("TLOC : " + linesOfCode);
         }
         catch (FileNotFoundException e){
             System.out.println("Oops! File not found");
