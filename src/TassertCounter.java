@@ -20,7 +20,12 @@ public class TassertCounter {
                 String data = myReader.nextLine();
 
                 if (!data.startsWith("//") && !data.startsWith("System.out.println")) {
-                    if (pattern.matcher(data).matches() || data.contains("fail")) {
+                    if (data.startsWith("assert")){
+                        if (pattern.matcher(data.substring(0,7)).matches() ) {
+                            assertions++;
+                        }
+                    }
+                    if (data.contains("fail")){
                         assertions++;
                     }
                 }
