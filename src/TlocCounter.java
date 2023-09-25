@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class TlocCounter {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         if (args.length != 1){
             System.out.println("Error! Please enter the correct number of arguments");
         }
@@ -11,7 +11,7 @@ public class TlocCounter {
         computeTloc(fileName);
     }
 
-    private static void computeTloc(String fileName) throws FileNotFoundException {
+    private static void computeTloc(String fileName) {
         try {
             File file = new File(fileName);
             Scanner fileReader = new Scanner(file);
