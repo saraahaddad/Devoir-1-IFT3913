@@ -1,39 +1,35 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class TassertCounter {
+    static Pattern pattern = Pattern.compile("assert[A-Z]*");
 
-    public class Tassert {
+    public static void main(String[] args) {
+        if ((args.length) != 0)
+            computeAssert(args[0]);
+    }
 
-        public int assertions = 0;
+    public static void computeAssert(String args) {
+        int assertions = 0;
+        try {
+            File file = new File(args);
+            Scanner myReader = new Scanner(file);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
 
-        public int computeAssert(String args) {
-            try {
-                File file = new File(args);
-                Scanner myReader = new Scanner(file);
-                while (myReader.hasNextLine()) {
-                    String data = myReader.nextLine();
-
-                    if (!(data.substring(0, 2).equals("//"))) {
-                        if (data.startsWith("assert") || data.startsWith("fail")) {
-                            this.assertions++;
-                        }
+                if (!data.startsWith("//") && !data.startsWith("System.out.println")) {
+                    if (pattern.matcher(data).matches() || data.contains("fail")) {
+                        assertions++;
                     }
                 }
-                myReader.close();
-            } catch (FileNotFoundException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
             }
-            return assertions;
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
-
-        public void main(String[] args) {
-            if ((args.length) != 0)
-                System.out.println(computeAssert(args[0]));
-        }
-
-
+        System.out.println(assertions);
     }
 }
