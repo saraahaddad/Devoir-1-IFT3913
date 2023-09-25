@@ -29,7 +29,6 @@ public class TlocCounter {
         }
         catch (FileNotFoundException e){
             System.out.println("Oops! An error occured");
-            e.printStackTrace();
         }
     }
 }
