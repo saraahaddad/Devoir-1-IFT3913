@@ -2,7 +2,6 @@ package devoir1;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class TassertCounter {
     protected static int computeAssert(String args) {

@@ -10,9 +10,9 @@ public class TlocCounter {
             File file = new File(fileName);
             Scanner fileReader = new Scanner(file);
 
-            while (fileReader.hasNext()) {
+            while (fileReader.hasNext()) {                                  // read file line by line
                 String line = fileReader.nextLine();
-                if (!line.startsWith("//") && !line.isEmpty()) {
+                if (!line.startsWith("//") && !line.isEmpty()) {            // line isn't empty or a comment
                     linesOfCode++;
                 }
             }
