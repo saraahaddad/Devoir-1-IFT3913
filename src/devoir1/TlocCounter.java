@@ -1,21 +1,14 @@
+package devoir1;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class TlocCounter {
-    public static void main(String[] args) {
-        if (args.length != 1){
-            System.out.println("Error! Please enter the correct number of arguments");
-        }
-        String fileName = args[0];
-        computeTloc(fileName);
-    }
-
-    private static void computeTloc(String fileName) {
+    protected static int computeTloc(String fileName) {
+        int linesOfCode = 0;
         try {
             File file = new File(fileName);
             Scanner fileReader = new Scanner(file);
-            int linesOfCode = 0;
 
             while (fileReader.hasNext()) {
                 String line = fileReader.nextLine();
@@ -25,10 +18,18 @@ public class TlocCounter {
             }
 
             fileReader.close();
-            System.out.println("TLOC : " + linesOfCode);
         }
         catch (FileNotFoundException e){
             System.out.println("Oops! File not found");
         }
+        return linesOfCode;
+    }
+
+    public static void main(String[] args) {
+        if (args.length != 1){
+            System.out.println("Error! Please enter the correct number of arguments");
+        }
+        String fileName = args[0];
+        System.out.println("TLOC : " + computeTloc(fileName));
     }
 }
