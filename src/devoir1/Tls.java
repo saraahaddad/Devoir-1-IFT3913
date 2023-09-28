@@ -1,9 +1,10 @@
 package devoir1;
 import java.io.*;
+import java.util.Objects;
 
 public class Tls {
 
-    public static StringBuilder tls(String folderPath) throws IOException {
+    public static String tls(String folderPath) throws IOException {
         StringBuilder output = new StringBuilder();                // output line
         File[] filesInFolder = new File(folderPath).listFiles();   // create list of files using folder path
         int tloc;       // store tloc count
@@ -18,12 +19,15 @@ public class Tls {
             if (file.getName().contains("Test.java")){             // if not test file, ignore
                 BufferedReader reader = new BufferedReader(new FileReader(file));
                 String packageName = reader.readLine();
+                packageName = packageName.startsWith("package") ? packageName : "";
                 String className = file.getName();
                 tloc = TlocCounter.computeTloc(file.getAbsolutePath());
                 tassert = TassertCounter.computeAssert(file.getAbsolutePath());
                 tcmp = (float) tloc / tassert;
                 output.append(file.getAbsolutePath()).append(", ");
-                output.append(packageName, packageName.indexOf(' ') + 1, packageName.indexOf(';')).append(", ");
+                if (!Objects.equals(packageName, "")) {
+                    output.append(packageName, packageName.indexOf(' ') + 1, packageName.indexOf(';')).append(", ");
+                }
                 output.append(className, 0, className.indexOf('.')).append(", ");
                 output.append(tloc).append(", ");
                 output.append(tassert).append(", ");
@@ -31,7 +35,7 @@ public class Tls {
                 System.out.println(output);
             }
         }
-        return output;
+        return output.toString();
     }
 
     public static void main(String[] args) throws IOException {

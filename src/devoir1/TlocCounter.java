@@ -17,7 +17,7 @@ public class TlocCounter {
                 if (line.startsWith("/*")){
                     isStartOfComment = true;
                 }
-                if (!line.startsWith("//") && !line.isEmpty() && !isStartOfComment){
+                if (!line.trim().startsWith("//") && !line.isEmpty() && !isStartOfComment){
                     linesOfCode++;
                 }
                 if (line.endsWith("*/")){

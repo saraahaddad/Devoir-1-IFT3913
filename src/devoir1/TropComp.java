@@ -1,11 +1,12 @@
 package devoir1;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
 
 public class TropComp {
-    protected static String computeTropComp(String path, String Seuil){
+    protected static String computeTropComp(String path, String Seuil) throws IOException {
         String output = "";
         File[] files = new File(path).listFiles();
         String dataTropComp[];
@@ -47,7 +48,7 @@ public class TropComp {
 
         return output;
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         if ((args.length) == 2){
             System.out.println(computeTropComp(args[0], args [1]));
         }
