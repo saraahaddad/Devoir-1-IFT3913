@@ -1,4 +1,5 @@
-hello
+package devoir1;
+/**hello
 my
 name
 is
@@ -16,6 +17,16 @@ fail(cjkn)
 fail
 // assert
 // fail
-
 System.out.println("assert")
-System.out.println("fail("FileNotFound")")
+System.out.println("fail("FileNotFound")")**/
+
+/**
+ * asuhau
+ **/
+
+/*
+ dadfef
+ k,
+ k
+ k
+ */
