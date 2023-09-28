@@ -26,12 +26,14 @@ public class TassertCounter {
             System.out.println("File not found");
             e.printStackTrace();
         }
-        System.out.println("TASSERT : " + assertions);
+
         return assertions;
     }
 
     public static void main(String[] args) {
-        if ((args.length) != 0)
-            computeAssert(args[0]);
+        if ((args.length) != 0){
+            System.out.println("TASSERT : " + computeAssert(args[0]) );
+        }
+
     }
 }
