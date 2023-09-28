@@ -33,6 +33,9 @@ public class Tls {
                 if (!Objects.equals(packageName, "")) {
                     output.append(packageName, packageName.indexOf(' ') + 1, packageName.indexOf(';')).append(", ");
                 }
+                else{
+                    output.append("None").append(", ");
+                }
                 output.append(className, 0, className.indexOf('.')).append(", ");
                 output.append(tloc).append(", ");
                 output.append(tassert).append(", ");
