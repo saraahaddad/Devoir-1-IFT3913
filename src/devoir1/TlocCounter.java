@@ -14,13 +14,13 @@ public class TlocCounter {
 
             while (fileReader.hasNext()) {                                  // read file line by line
                 String line = fileReader.nextLine();
-                if (line.startsWith("/*")){
+                if (line.trim().startsWith("/*")){
                     isStartOfComment = true;
                 }
                 if (!line.trim().startsWith("//") && !line.isEmpty() && !isStartOfComment){
                     linesOfCode++;
                 }
-                if (line.endsWith("*/")){
+                if (line.trim().endsWith("*/")){
                     isStartOfComment = false;
                 }
 
