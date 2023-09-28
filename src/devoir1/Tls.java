@@ -1,16 +1,24 @@
 package devoir1;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Tls {
 
     public static String tls(String folderPath) throws IOException {
         StringBuilder output = new StringBuilder();                // output line
-        File[] filesInFolder = new File(folderPath).listFiles();   // create list of files using folder path
+        // create list of files using folder path
+        ArrayList<File> filesInFolder = new ArrayList<>();
+        if (new File(folderPath).isDirectory()){
+            filesInFolder.addAll(List.of(Objects.requireNonNull(new File(folderPath).listFiles())));
+        }
+        else {
+            filesInFolder.add(new File(folderPath));
+        }
         int tloc;       // store tloc count
         int tassert;    // store tassert count
         float tcmp;     // store tcmp
-        assert filesInFolder != null;
 
         for (File file: filesInFolder){
             if (file.isDirectory()){                               // recursively call function if file is a directory
