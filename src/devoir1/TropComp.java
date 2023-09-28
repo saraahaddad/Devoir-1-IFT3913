@@ -17,7 +17,7 @@ public class TropComp {
 
         // calculer le seuil
         // si le nombre de files calculer n'est pas un entier on prend le plancher
-        int tops = dataTropComp.length * Integer.parseInt(Seuil) / 100 ;
+        int fileAmount = dataTropComp.length * Integer.parseInt(Seuil) / 100 ;
 
         HashMap<String, Double> tcmp = new HashMap<String, Double>();
         HashMap<String, Double> tloc = new HashMap<String, Double>();
@@ -25,14 +25,22 @@ public class TropComp {
         // for each file, fill hashmaps
         for (String file: dataTropComp){
             String[] dataFile = file.split(",");
-            tloc.put(dataFile[2],Double.parseDouble(dataFile[3].trim()));
-            tcmp.put(dataFile[2], Double.parseDouble(dataFile[5].trim()));
+            tloc.put(dataFile[0],Double.parseDouble(dataFile[3].trim()));
+            tcmp.put(dataFile[0], Double.parseDouble(dataFile[5].trim()));
         }
 
         // order files by their tloc
         HashMap<String, Double> orderedTloc = (HashMap<String, Double>) MapUtil.sortByValue(tloc);
         // order files by their tcmp
         HashMap<String, Double> orderedTcmp = (HashMap<String, Double>) MapUtil.sortByValue(tcmp);
+
+        // Construire nouvel array: On doit regarder les top de chaque hashmap et extraire le tls si un fichier
+        // se trouve dans les top des deux categories
+
+        // print tls of top <seuil>%
+        for (int i = 0; i <fileAmount; i++){
+
+        }
 
         System.out.println(orderedTcmp);
         System.out.println(orderedTloc);
