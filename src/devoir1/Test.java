@@ -1,4 +1,10 @@
 package devoir1;
+public class Test {
+    // bonjour this is just another test file
+    public int assertEquals(){
+        return 3;
+    }
+}
 /**hello
 my
 name

@@ -23,7 +23,12 @@ public class Tls {
                 String className = file.getName();
                 tloc = TlocCounter.computeTloc(file.getAbsolutePath());
                 tassert = TassertCounter.computeAssert(file.getAbsolutePath());
-                tcmp = (float) tloc / tassert;
+                if (tassert !=0){
+                    tcmp = (float) tloc / tassert;
+                }
+                else{
+                    tcmp = tloc;
+                }
                 output.append(file.getAbsolutePath()).append(", ");
                 if (!Objects.equals(packageName, "")) {
                     output.append(packageName, packageName.indexOf(' ') + 1, packageName.indexOf(';')).append(", ");
@@ -31,8 +36,7 @@ public class Tls {
                 output.append(className, 0, className.indexOf('.')).append(", ");
                 output.append(tloc).append(", ");
                 output.append(tassert).append(", ");
-                output.append(tcmp).append(", ");
-                System.out.println(output);
+                output.append(tcmp).append(", \n");
             }
         }
         return output.toString();

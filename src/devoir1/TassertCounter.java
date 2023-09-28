@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+// On assume que les lignes contenant
 public class TassertCounter {
     protected static int computeAssert(String args) {
         int assertions = 0;
@@ -13,11 +14,11 @@ public class TassertCounter {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
 
-                if (data.startsWith("/*")){
+                if (data.trim().startsWith("/*")){
                     isStartOfComment = true;
                 }
 
-                if (!data.startsWith("//") && !data.startsWith("System.out.println") && !isStartOfComment) {
+                if (!data.trim().startsWith("//") && !data.startsWith("System.out.println") && !isStartOfComment) {
                     if (data.contains("assert")){
                         assertions++;
                     }
@@ -25,7 +26,7 @@ public class TassertCounter {
                         assertions++;
                     }
                 }
-                if (data.endsWith("*/")){
+                if (data.trim().endsWith("*/")){
                     isStartOfComment = false;
                 }
             }
