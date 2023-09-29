@@ -49,12 +49,17 @@ public class TropComp {
             }
         }
 
-        // removed unwanted files
-        orderedTloc.keySet().retainAll(keylist);
-
         // print tls of files wanted
-        for (String key: orderedTloc.keySet()){
-            output.append(Tls.tls(key));
+        for (String file: orderedTloc.keySet()){
+            if (fileAmount > 0){
+                for (String key: keylist){
+                    if(Objects.equals(key, file)){
+                        output.append(Tls.tls(key));
+                    }
+                }
+                fileAmount--;
+            }
+
         }
 
         return output.toString();
