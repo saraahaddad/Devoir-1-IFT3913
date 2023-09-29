@@ -7,15 +7,14 @@ import java.util.*;
 
 public class TropComp {
     protected static String computeTropComp(String path, String Seuil) throws IOException {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         File[] files = new File(path).listFiles();
-        String dataTropComp[];
+        String[] dataTropComp;
 
         assert files != null;
 
         // get tls data of files
         dataTropComp = Tls.tls(path).split("\n");
-        System.out.println(dataTropComp);
         // calculer le seuil
         // si le nombre de files calculer n'est pas un entier on prend le plancher
         int fileAmount = dataTropComp.length * Integer.parseInt(Seuil) / 100 ;
@@ -41,7 +40,6 @@ public class TropComp {
         List<String> keylist = new ArrayList<>();
         // print tls of top <seuil>%
         int added = 0;
-        System.out.println(fileAmount);
 
         // extract amount wanted
         for (String key: orderedTcmp.keySet()){
@@ -50,20 +48,16 @@ public class TropComp {
                 added++;
             }
         }
-        System.out.println("keylist " + keylist);
 
         // removed unwanted files
         orderedTloc.keySet().retainAll(keylist);
 
         // print tls of files wanted
         for (String key: orderedTloc.keySet()){
-            System.out.println(Tls.tls(key));
+            output.append(Tls.tls(key));
         }
 
-        System.out.println("tcmp"+orderedTcmp);
-        System.out.println("tcmp"+orderedTloc);
-
-        return output;
+        return output.toString();
     }
     public static void main(String[] args) throws IOException {
         if ((args.length) == 2){

@@ -22,7 +22,7 @@ public class Tls {
 
         for (File file: filesInFolder){
             if (file.isDirectory()){                               // recursively call function if file is a directory
-                tls(file.getAbsolutePath());
+                output.append(tls(file.getAbsolutePath()));
             }
             if (file.getName().contains("Test.java")){             // if not test file, ignore
                 BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -31,7 +31,7 @@ public class Tls {
                 String className = file.getName();
                 tloc = TlocCounter.computeTloc(file.getAbsolutePath());
                 tassert = TassertCounter.computeAssert(file.getAbsolutePath());
-                if (tassert !=0){
+                if (tassert != 0){
                     tcmp = (float) tloc / tassert;
                 }
                 else{
