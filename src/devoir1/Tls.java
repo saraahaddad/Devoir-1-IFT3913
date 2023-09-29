@@ -1,5 +1,6 @@
 package devoir1;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -9,14 +10,9 @@ public class Tls {
 
     public static String tls(String folderPath) throws IOException {
         StringBuilder output = new StringBuilder();                // output line
-        // create list of files using folder path
-        ArrayList<File> filesInFolder = new ArrayList<>();
-        if (new File(folderPath).isDirectory()){
-            filesInFolder.addAll(List.of(Objects.requireNonNull(new File(folderPath).listFiles())));
-        }
-        else {
-            filesInFolder.add(new File(folderPath));
-        }
+        List<File> filesInFolder;                                  // create list of files using folder path
+        filesInFolder = new File(folderPath).isDirectory() ?
+                List.of(Objects.requireNonNull(new File(folderPath).listFiles())) : List.of(new File(folderPath));
         int tloc;       // store tloc count
         int tassert;    // store tassert count
         float tcmp;     // store tcmp
@@ -26,25 +22,12 @@ public class Tls {
                 output.append(tls(file.getAbsolutePath()));
             }
             if (file.getName().contains("Test.java")){             // if not test file, ignore
-                Scanner reader = new Scanner(new FileReader(file));
-                String packageName = "";
-
-                while(reader.hasNext()){
-                    String line = reader.nextLine();
-                    if (line.startsWith("package")){
-                        packageName = line.substring(line.indexOf(' '));
-                    }
-                }
-                
                 String className = file.getName();
+                String packageName = Files.readAllLines(new File(file.getAbsolutePath()).toPath()).stream()
+                        .filter(line -> line.startsWith("package")).findFirst().get();
                 tloc = TlocCounter.computeTloc(file.getAbsolutePath());
                 tassert = TassertCounter.computeAssert(file.getAbsolutePath());
-                if (tassert != 0){
-                    tcmp = (float) tloc / tassert;
-                }
-                else{
-                    tcmp = tloc;
-                }
+                tcmp = tassert != 0 ? (float) tloc / tassert : tloc;
                 output.append(file.getAbsolutePath()).append(", ");
                 if (!Objects.equals(packageName, "")) {
                     output.append(packageName, packageName.indexOf(' ') + 1, packageName.indexOf(';')).append(", ");
