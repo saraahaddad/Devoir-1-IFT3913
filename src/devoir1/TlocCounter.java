@@ -1,40 +1,33 @@
 package devoir1;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Scanner;
 
 public class TlocCounter {
-    protected static int computeTloc(String fileName) {
-        int linesOfCode = 0;
-
-        try {
-            File file = new File(fileName);
-            Scanner fileReader = new Scanner(file);
-            boolean isStartOfComment = false;
-
-            while (fileReader.hasNext()) {                                  // read file line by line
-                String line = fileReader.nextLine();
-                if (line.trim().startsWith("/*")){
-                    isStartOfComment = true;
-                }
-                if (!line.trim().startsWith("//") && !line.isEmpty() && !isStartOfComment){
-                    linesOfCode++;
-                }
-                if (line.trim().endsWith("*/")){
-                    isStartOfComment = false;
-                }
-
-            }
-
-            fileReader.close();
-        }
-        catch (FileNotFoundException e){
-            System.out.println("Oops! File not found");
-            e.printStackTrace();
-        }
-        return linesOfCode;
+    static boolean isStartOfComment = false;
+    protected static int computeTloc(String fileName) throws IOException {
+        return (int) Files.readAllLines(new File(fileName).toPath())    // get lines of file
+                .stream()                                               // to go over each line
+                .filter(line -> !lineIsComment(line))                   // filter out comments
+                .count();                                               // count remaining elements
     }
-    public static void main(String[] args) {
+    public static boolean lineIsComment(String line){
+        if (line.trim().startsWith("/*")){      // beginning of multiline comment
+            isStartOfComment = true;
+            return true;                        // line is a comment
+        }
+        if (!line.trim().startsWith("//") && !line.trim().isEmpty() && !isStartOfComment){
+            return false;
+        }
+        if (line.trim().endsWith("*/")){        // end of multiline comment
+            isStartOfComment = false;
+            return true;
+        }
+        return true;
+    }
+    public static void main(String[] args) throws IOException {
         if (args.length != 1){
             System.out.println("Error! Please enter the correct number of arguments");
         }

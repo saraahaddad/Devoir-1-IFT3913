@@ -4,7 +4,14 @@ public class Test {
     public int assertEquals(){
         return 3;
     }
+    public void k(){
+        System.out.println("o");
+    }
+    public void k1(){
+        System.out.println("o");
+    }
 }
+
 /**hello
 my
 name
