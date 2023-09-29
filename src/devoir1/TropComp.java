@@ -43,7 +43,7 @@ public class TropComp {
 
         // extract amount wanted
         for (String key: orderedTcmp.keySet()){
-            if (added < fileAmount ){
+            if (added < fileAmount){
                 keylist.add(key);
                 added++;
             }

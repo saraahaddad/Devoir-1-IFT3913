@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Tls {
 
@@ -25,9 +26,16 @@ public class Tls {
                 output.append(tls(file.getAbsolutePath()));
             }
             if (file.getName().contains("Test.java")){             // if not test file, ignore
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String packageName = reader.readLine();
-                packageName = packageName.startsWith("package") ? packageName : "";
+                Scanner reader = new Scanner(new FileReader(file));
+                String packageName = "";
+
+                while(reader.hasNext()){
+                    String line = reader.nextLine();
+                    if (line.startsWith("package")){
+                        packageName = line.substring(line.indexOf(' '));
+                    }
+                }
+                
                 String className = file.getName();
                 tloc = TlocCounter.computeTloc(file.getAbsolutePath());
                 tassert = TassertCounter.computeAssert(file.getAbsolutePath());
