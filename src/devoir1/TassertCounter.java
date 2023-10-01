@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Scanner;
 
-// On assume que les lignes contenant
 public class TassertCounter {
     static boolean isStartOfComment = false;
     protected static int computeAssert(String fileName) throws IOException {

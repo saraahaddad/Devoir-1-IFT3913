@@ -12,14 +12,14 @@ public class TlocCounter {
                 .count();                                               // count remaining elements
     }
     public static boolean lineIsComment(String line){
-        if (line.trim().startsWith("/*")){      // beginning of multiline comment
+        if (line.trim().startsWith("/*") && !line.trim().contains("*/")){      // beginning of multiline comment
             isStartOfComment = true;
-            return true;                        // line is a comment
+            return true;                                                       // line is a comment
         }
         if (!line.trim().startsWith("//") && !line.trim().isEmpty() && !isStartOfComment){
             return false;
         }
-        if (line.trim().endsWith("*/")){        // end of multiline comment
+        if (line.trim().endsWith("*/")){                                       // end of multiline comment
             isStartOfComment = false;
             return true;
         }
