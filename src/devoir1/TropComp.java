@@ -33,14 +33,11 @@ public class TropComp {
         // order files by their tloc
         Map<String, Double> orderedTloc = MapUtil.sortByValue(tloc);
         List<String> tlocKeys = new ArrayList<>(orderedTloc.keySet());
-        System.out.println("ORDERED TLOC " + orderedTloc);
         Collections.reverse(tlocKeys);
-        System.out.println("REVERSED" + tlocKeys);
 
         // order files by their tcmp
         Map<String, Double> orderedTcmp = MapUtil.sortByValue(tcmp);
         List<String> tcmpKeys = new ArrayList<>(orderedTcmp.keySet());
-       // System.out.println(tcmpKeys);
         Collections.reverse(tcmpKeys);
 
         // Construire nouvel array: On doit regarder les top de chaque hashmap et extraire le tls si un fichier
@@ -54,6 +51,7 @@ public class TropComp {
         for (String key: tcmpKeys){
             if (added < fileAmount){
                 keylist.add(key);
+
                 added++;
             }
         }
