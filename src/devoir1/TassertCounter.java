@@ -20,7 +20,7 @@ public class TassertCounter {
         if (line.trim().startsWith("/*")){      // beginning of multiline comment
             isStartOfComment = true;            // line is a comment
         }
-        if (!line.startsWith("import") && !line.trim().startsWith("//")
+        if (!line.startsWith("import") || !line.trim().startsWith("//")
                 && !line.startsWith("System.out.println") && !isStartOfComment){
             if (line.contains("assert") || line.contains("fail")){
                 return true;
