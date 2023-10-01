@@ -33,7 +33,7 @@ public class Tls {
                     output.append(packageName, packageName.indexOf(' ') + 1, packageName.indexOf(';')).append(", ");
                 }
                 else{
-                    output.append("None").append(", ");
+                    output.append("No package name found, ");
                 }
                 output.append(className, 0, className.indexOf('.')).append(", ");
                 output.append(tloc).append(", ");

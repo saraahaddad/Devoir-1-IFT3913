@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TropComp {
     protected static String computeTropComp(String path, String Seuil) throws IOException {
@@ -17,10 +18,10 @@ public class TropComp {
         dataTropComp = Tls.tls(path).split("\n");
         // calculer le seuil
         // si le nombre de files calculer n'est pas un entier on prend le plancher
-        int fileAmount = dataTropComp.length * Integer.parseInt(Seuil) / 100 ;
+        int fileAmount = dataTropComp.length * Integer.parseInt(Seuil) / 100;
 
-        HashMap<String, Double> tcmp = new HashMap<String, Double>();
-        HashMap<String, Double> tloc = new HashMap<String, Double>();
+        HashMap<String, Double> tcmp = new HashMap<>();
+        HashMap<String, Double> tloc = new HashMap<>();
 
         // for each file, fill hashmaps
         for (String file: dataTropComp){
@@ -31,8 +32,16 @@ public class TropComp {
 
         // order files by their tloc
         Map<String, Double> orderedTloc = MapUtil.sortByValue(tloc);
+        List<String> tlocKeys = new ArrayList<>(orderedTloc.keySet());
+        System.out.println("ORDERED TLOC " + orderedTloc);
+        Collections.reverse(tlocKeys);
+        System.out.println("REVERSED" + tlocKeys);
+
         // order files by their tcmp
         Map<String, Double> orderedTcmp = MapUtil.sortByValue(tcmp);
+        List<String> tcmpKeys = new ArrayList<>(orderedTcmp.keySet());
+       // System.out.println(tcmpKeys);
+        Collections.reverse(tcmpKeys);
 
         // Construire nouvel array: On doit regarder les top de chaque hashmap et extraire le tls si un fichier
         // se trouve dans les top des deux categories
@@ -42,7 +51,7 @@ public class TropComp {
         int added = 0;
 
         // extract amount wanted
-        for (String key: orderedTcmp.keySet()){
+        for (String key: tcmpKeys){
             if (added < fileAmount){
                 keylist.add(key);
                 added++;
@@ -50,7 +59,7 @@ public class TropComp {
         }
 
         // print tls of files wanted
-        for (String file: orderedTloc.keySet()){
+        for (String file: tlocKeys){
             if (fileAmount > 0){
                 for (String key: keylist){
                     if(Objects.equals(key, file)){
