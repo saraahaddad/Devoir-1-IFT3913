@@ -11,23 +11,25 @@ public class TassertCounter {
     protected static int computeAssert(String fileName) throws IOException {
         return (int) Files.readAllLines(new File(fileName).toPath())    // get lines of file
                 .stream()                                               // to go over each line
-                .filter(line -> lineIsAssertion(line))                   // filter assertions
+                .filter(line -> lineIsAssertion(line))                  // filter assertions
                 .count();                                               // count remaining elements
 
     }
 
     public static boolean lineIsAssertion(String line){
-        if (line.trim().startsWith("/*")){      // beginning of multiline comment
+        if (line.trim().contains("/*")){        // beginning of multiline comment
             isStartOfComment = true;            // line is a comment
         }
-        if (!line.startsWith("import") || !line.trim().startsWith("//")
+
+        if (line.trim().contains("*/")){        // end of multiline comment
+            isStartOfComment = false;
+        }
+
+        if (!line.startsWith("import") && !line.trim().startsWith("//")
                 && !line.startsWith("System.out.println") && !isStartOfComment){
             if (line.contains("assert") || line.contains("fail")){
                 return true;
             }
-        }
-        if (line.trim().endsWith("*/")){        // end of multiline comment
-            isStartOfComment = false;
         }
 
         return false;
