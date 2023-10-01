@@ -26,8 +26,11 @@ public class TropComp {
         // for each file, fill hashmaps
         for (String file: dataTropComp){
             String[] dataFile = file.split(",");
-            tloc.put(dataFile[0],Double.parseDouble(dataFile[3].trim()));
-            tcmp.put(dataFile[0],Double.parseDouble(dataFile[5].trim()));
+            if (!(Double.parseDouble(dataFile[4].trim())==0)){
+                tloc.put(dataFile[0],Double.parseDouble(dataFile[3].trim()));
+                tcmp.put(dataFile[0],Double.parseDouble(dataFile[5].trim()));
+            }
+
         }
 
         // order files by their tloc
@@ -51,12 +54,11 @@ public class TropComp {
         for (String key: tcmpKeys){
             if (added < fileAmount){
                 keylist.add(key);
-
                 added++;
             }
         }
 
-        // print tls of files wanted
+        // Add if files are also in top <seuil>% of tloc
         for (String file: tlocKeys){
             if (fileAmount > 0){
                 for (String key: keylist){
