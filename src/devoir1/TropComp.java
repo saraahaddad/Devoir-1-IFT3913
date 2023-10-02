@@ -30,16 +30,15 @@ public class TropComp {
                 tloc.put(dataFile[0],Double.parseDouble(dataFile[3].trim()));
                 tcmp.put(dataFile[0],Double.parseDouble(dataFile[5].trim()));
             }
-
         }
 
         // order files by their tloc
-        Map<String, Double> orderedTloc = MapUtil.sortByValue(tloc);
+        Map<String, Double> orderedTloc = sortByValue(tloc);
         List<String> tlocKeys = new ArrayList<>(orderedTloc.keySet());
         Collections.reverse(tlocKeys);
 
         // order files by their tcmp
-        Map<String, Double> orderedTcmp = MapUtil.sortByValue(tcmp);
+        Map<String, Double> orderedTcmp = sortByValue(tcmp);
         List<String> tcmpKeys = new ArrayList<>(orderedTcmp.keySet());
         Collections.reverse(tcmpKeys);
 
@@ -82,7 +81,7 @@ public class TropComp {
 
     }
 
-    public class MapUtil {
+
         public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
             List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
             list.sort(Map.Entry.comparingByValue());
@@ -94,7 +93,7 @@ public class TropComp {
 
             return result;
         }
-    }
+
 
     // source : https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values
 
