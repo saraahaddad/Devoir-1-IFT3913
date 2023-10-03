@@ -1,9 +1,8 @@
 package devoir1;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Scanner;
 
 public class TassertCounter {
     static boolean isStartOfComment = false;

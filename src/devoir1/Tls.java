@@ -1,6 +1,7 @@
 package devoir1;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
@@ -50,40 +51,24 @@ public class Tls {
         return output.toString();
     }
 
-    public static String getRelPath(String folderPath, String filePath){
-        String relPath = "";
-
-        try {
-            File file = new File(filePath);
-            File folder = new File(folderPath);
-
-            // convert the absolute path to URI
-            URI fileURI = file.toURI();
-            URI folderURI = folder.toURI();
-
-            // create a relative path from the two paths
-            URI relativePathURI = folderURI.relativize(fileURI);
-
-            // convert the URI to string
-            relPath = "./" + relativePathURI.getPath();
-
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-        return relPath;
-        // source: https://www.programiz.com/java-programming/examples/get-relative-path
-
-    }
-
     public static void main(String[] args) throws IOException {
-        if (args.length == 0){
+        if (args.length != 1 && args.length != 3){
             System.out.println("Please enter the correct number of arguments!");
         }
 
-        String[] output = tls(args[0]).split("\n");
-        for (String s : output) {
-            String relPath = getRelPath(args[0], s.substring(0, s.indexOf(' ')) );
-            System.out.println(relPath + s.substring(s.indexOf(" ")).trim());
+        int filePathIndex = args[0].equals("-o") ? 2 : 0;
+
+        String[] output = tls(args[filePathIndex]).split("\n");
+
+        for (int i = 0; i < output.length; i++) {
+            String s = output[i];
+            String relPath = Utilities.getRelPath(args[filePathIndex], s.substring(0, s.indexOf(' ')));
+            output[i] = s.replace(s.substring(0, s.indexOf(' ')), relPath);
+            System.out.println(output[i]);
+        }
+
+        if (args[0].equals("-o")) {
+            Utilities.createCSV(String.join("\n", output), args[1]);
         }
     }
 }

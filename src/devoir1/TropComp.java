@@ -1,7 +1,6 @@
 package devoir1;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -9,7 +8,7 @@ public class TropComp {
     protected static String computeTropComp(String path, String Seuil) throws IOException {
         StringBuilder output = new StringBuilder();
 
-        ArrayList<File> files = listAllFiles(path);
+        ArrayList<File> files = Utilities.listAllFiles(path);
 
         double tloc;
         double tcmp;
@@ -38,12 +37,12 @@ public class TropComp {
         int fileAmount = tlocs.size() * Integer.parseInt(Seuil) / 100;
 
         // order files by their tloc
-        Map<String, Double> orderedTloc = sortByValue(tlocs);
+        Map<String, Double> orderedTloc = Utilities.sortByValue(tlocs);
         List<String> tlocKeys = new ArrayList<>(orderedTloc.keySet());
         Collections.reverse(tlocKeys);
 
         // order files by their tcmp
-        Map<String, Double> orderedTcmp = sortByValue(tcmps);
+        Map<String, Double> orderedTcmp = Utilities.sortByValue(tcmps);
         List<String> tcmpKeys = new ArrayList<>(orderedTcmp.keySet());
         Collections.reverse(tcmpKeys);
 
@@ -78,63 +77,23 @@ public class TropComp {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 2 && args.length != 3 && args.length != 4) {
+        if (args.length != 2 && args.length != 4) {
             System.out.println("Veuillez entrer un chemin de fichier ainsi que le seuil souhaite!");
         }
 
-        int filePathIndex = args[0].equals("-o") ? 1 : 0;
+        int filePathIndex = args[0].equals("-o") ? 2 : 0;
         String[] output = computeTropComp(args[filePathIndex], args[filePathIndex + 1]).split("\n");
 
         for (int i = 0; i < output.length; i++) {
             String s = output[i];
-            String relPath = Tls.getRelPath(args[filePathIndex], s.substring(0, s.indexOf(' ')));
+            String relPath = Utilities.getRelPath(args[filePathIndex], s.substring(0, s.indexOf(' ')));
             output[i] = s.replace(s.substring(0, s.indexOf(' ')), relPath);
             System.out.println(output[i]);
         }
 
         if (args[0].equals("-o")) {
-            createCSV(String.join("\n", output), args[3]);
+            Utilities.createCSV(String.join("\n", output), args[1]);
         }
     }
-
-    public static ArrayList<File> listAllFiles(String filePath) {
-        List<File> files = new File(filePath).isDirectory() ?
-                List.of(Objects.requireNonNull(new File(filePath).listFiles())) : List.of(new File(filePath));
-
-        ArrayList<File> filesInPath = new ArrayList<>(files);
-        for (File file : files) {
-            if (file.isDirectory()) {
-                filesInPath.addAll(listAllFiles(file.getAbsolutePath()));
-            } else if (!(filesInPath.contains(file))) {
-                filesInPath.add(file);
-            }
-        }
-
-        return filesInPath;
-    }
-
-
-    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
-        list.sort(Map.Entry.comparingByValue());
-
-        Map<K, V> result = new LinkedHashMap<>();
-        for (Map.Entry<K, V> entry : list) {
-            result.put(entry.getKey(), entry.getValue());
-        }
-
-        return result;
-    }
-
-    public static void createCSV(String content, String fileName) throws IOException {
-        File csvFile = new File(fileName + ".csv");
-        FileWriter fileWriter = new FileWriter(csvFile);
-        fileWriter.write(content);
-        fileWriter.close();
-    }
-
-
-    // source : https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values
-
 }
 
