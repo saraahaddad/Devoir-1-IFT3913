@@ -2,6 +2,7 @@ package devoir1;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Objects;
@@ -28,8 +29,12 @@ public class Tls {
                 tloc = TlocCounter.computeTloc(file.getAbsolutePath());
                 tassert = TassertCounter.computeAssert(file.getAbsolutePath());
                 tcmp = tassert != 0 ? (float) tloc / tassert : 0;
-                output.append(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf('\\'))).append(", ");
+
                 output.append(file.getAbsolutePath()).append(", ");
+
+                output.append(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf('\\'))).append(", ");
+
+
                 if (!Objects.equals(packageName, "")) {
                     output.append(packageName, packageName.indexOf(' ') + 1, packageName.indexOf(';')).append(", ");
                 }
@@ -45,10 +50,42 @@ public class Tls {
         return output.toString();
     }
 
+    public String getRelPath(String folderPath, String filePath){
+        String path = "";
+        try {
+
+            // Two absolute paths
+            File absolutePath1 = new File(filePath);
+            File absolutePath2 = new File(folderPath);
+
+            // convert the absolute path to URI
+            URI path1 = absolutePath1.toURI();
+            URI path2 = absolutePath2.toURI();
+
+            // create a relative path from the two paths
+            URI relativePath = path2.relativize(path1);
+
+            // convert the URI to string
+            path = relativePath.getPath();
+
+
+
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return path;
+        // source: https://www.programiz.com/java-programming/examples/get-relative-path
+
+    }
+
     public static void main(String[] args) throws IOException {
         if (args.length == 0){
             System.out.println("Please enter the correct number of arguments!");
         }
-        System.out.println(tls(args[0]));
+
+        String[] output = tls(args[0]).split("\n");
+        for (int i = 0; i < output.length; i++){
+            System.out.println(output[i].substring(output[i].indexOf(" ")).trim());
+        }
     }
 }
