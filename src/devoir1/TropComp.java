@@ -10,8 +10,6 @@ public class TropComp {
 
         ArrayList<File> files = listAllFiles(path);
 
-        assert files != null;
-
         double tloc;
         double tcmp;
         double tassert;
@@ -97,10 +95,8 @@ public class TropComp {
         for (File file : files) {
             if (file.isDirectory()) {
                 filesInPath.addAll(listAllFiles(file.getAbsolutePath()));
-            } else {
-                if (!(filesInPath.contains(file))) {
-                    filesInPath.add(file);
-                }
+            } else if (!(filesInPath.contains(file))) {
+                filesInPath.add(file);
             }
         }
 
