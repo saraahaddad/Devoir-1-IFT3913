@@ -32,7 +32,7 @@ public class Tls {
 
                 output.append(file.getAbsolutePath()).append(", ");
 
-                output.append(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf('\\'))).append(", ");
+                //output.append(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf('\\'))).append(", ");
 
 
                 if (!Objects.equals(packageName, "")) {
@@ -50,30 +50,27 @@ public class Tls {
         return output.toString();
     }
 
-    public String getRelPath(String folderPath, String filePath){
-        String path = "";
-        try {
+    public static String getRelPath(String folderPath, String filePath){
+        String relPath = "";
 
-            // Two absolute paths
-            File absolutePath1 = new File(filePath);
-            File absolutePath2 = new File(folderPath);
+        try {
+            File file = new File(filePath);
+            File folder = new File(folderPath);
 
             // convert the absolute path to URI
-            URI path1 = absolutePath1.toURI();
-            URI path2 = absolutePath2.toURI();
+            URI fileURI = file.toURI();
+            URI folderURI = folder.toURI();
 
             // create a relative path from the two paths
-            URI relativePath = path2.relativize(path1);
+            URI relativePathURI = folderURI.relativize(fileURI);
 
             // convert the URI to string
-            path = relativePath.getPath();
-
-
+            relPath = "./" + relativePathURI.getPath();
 
         } catch (Exception e) {
             e.getStackTrace();
         }
-        return path;
+        return relPath;
         // source: https://www.programiz.com/java-programming/examples/get-relative-path
 
     }
@@ -84,8 +81,9 @@ public class Tls {
         }
 
         String[] output = tls(args[0]).split("\n");
-        for (int i = 0; i < output.length; i++){
-            System.out.println(output[i].substring(output[i].indexOf(" ")).trim());
+        for (String s : output) {
+            String relPath = getRelPath(args[0], s.substring(0, s.indexOf(' ')) );
+            System.out.println(relPath + s.substring(s.indexOf(" ")).trim());
         }
     }
 }
