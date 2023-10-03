@@ -78,19 +78,23 @@ public class TropComp {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 2 && args.length != 3) {
+        if (args.length != 2 && args.length != 3 && args.length != 4) {
             System.out.println("Veuillez entrer un chemin de fichier ainsi que le seuil souhaite!");
         }
-        String[] output = computeTropComp(args[0], args[1]).split("\n");
+
+        int filePathIndex = args[0].equals("-o") ? 1 : 0;
+        String[] output = computeTropComp(args[filePathIndex], args[filePathIndex + 1]).split("\n");
 
         for (int i = 0; i < output.length; i++) {
             String s = output[i];
-            String relPath = Tls.getRelPath(args[0], s.substring(0, s.indexOf(' ')));
+            String relPath = Tls.getRelPath(args[filePathIndex], s.substring(0, s.indexOf(' ')));
             output[i] = s.replace(s.substring(0, s.indexOf(' ')), relPath);
             System.out.println(output[i]);
         }
 
-        createCSV(String.join("\n", output), args[2]);
+        if (args[0].equals("-o")) {
+            createCSV(String.join("\n", output), args[3]);
+        }
     }
 
     public static ArrayList<File> listAllFiles(String filePath) {
