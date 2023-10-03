@@ -1,6 +1,7 @@
 # Devoir-1-IFT3913
 CLOE CHANDONNET  20136319,
 SARA HADDAD 20208373
+Lien du GitHub : https://github.com/saraahaddad/Devoir-1-IFT3913/
 
 # Comment exécuter le JAR ?
 Il faut 
