@@ -14,7 +14,7 @@ Il faut
 
 # Exécuter avec option afin de générer un fichier CSV
 Pour Tls:
-java devoir1/Tls -o <NomDuCSV> <CheminDEntree>
+java devoir1/Tls -o NomDuCSV CheminDEntree
 
 Pour TropComp:
-java devoir1/TropComp -o <NomDuCSV> <CheminDEntree> <Seuil>
+java devoir1/TropComp -o NomDuCSV CheminDEntree Seuil
