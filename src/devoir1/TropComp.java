@@ -1,6 +1,7 @@
 package devoir1;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -77,14 +78,19 @@ public class TropComp {
     }
 
     public static void main(String[] args) throws IOException {
-        if (!((args.length) == 2)) {
+        if (args.length != 2 && args.length != 3) {
             System.out.println("Veuillez entrer un chemin de fichier ainsi que le seuil souhaite!");
         }
         String[] output = computeTropComp(args[0], args[1]).split("\n");
-        for (String s : output) {
+
+        for (int i = 0; i < output.length; i++) {
+            String s = output[i];
             String relPath = Tls.getRelPath(args[0], s.substring(0, s.indexOf(' ')));
-            System.out.println(relPath + s.substring(s.indexOf(" ")).trim());
+            output[i] = s.replace(s.substring(0, s.indexOf(' ')), relPath);
+            System.out.println(output[i]);
         }
+
+        createCSV(String.join("\n", output), args[2]);
     }
 
     public static ArrayList<File> listAllFiles(String filePath) {
@@ -114,6 +120,13 @@ public class TropComp {
         }
 
         return result;
+    }
+
+    public static void createCSV(String content, String fileName) throws IOException {
+        File csvFile = new File(fileName + ".csv");
+        FileWriter fileWriter = new FileWriter(csvFile);
+        fileWriter.write(content);
+        fileWriter.close();
     }
 
 

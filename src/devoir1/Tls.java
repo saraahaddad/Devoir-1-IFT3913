@@ -44,7 +44,7 @@ public class Tls {
                 output.append(className, 0, className.indexOf('.')).append(", ");
                 output.append(tloc).append(", ");
                 output.append(tassert).append(", ");
-                output.append(tcmp).append(", \n");
+                output.append(tcmp).append("\n");
             }
         }
         return output.toString();
