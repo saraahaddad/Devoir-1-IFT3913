@@ -2,43 +2,46 @@ package devoir1;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TropComp {
     protected static String computeTropComp(String path, String Seuil) throws IOException {
         StringBuilder output = new StringBuilder();
-        File[] files = new File(path).listFiles();
-        String[] dataTropComp;
+
+        ArrayList<File> files = listAllFiles(path);
 
         assert files != null;
 
-        // get tls data of files
-        dataTropComp = Tls.tls(path).split("\n");
-        // calculer le seuil
-        // si le nombre de files calculer n'est pas un entier on prend le plancher
-        int fileAmount = dataTropComp.length * Integer.parseInt(Seuil) / 100;
+        double tloc;
+        double tcmp;
+        double tassert;
 
-        HashMap<String, Double> tcmp = new HashMap<>();
-        HashMap<String, Double> tloc = new HashMap<>();
+        HashMap<String, Double> tcmps = new HashMap<>();
+        HashMap<String, Double> tlocs = new HashMap<>();
 
-        // for each file, fill hashmaps
-        for (String file: dataTropComp){
-            String[] dataFile = file.split(",");
-            if (!(Double.parseDouble(dataFile[4].trim())==0)){
-                tloc.put(dataFile[0],Double.parseDouble(dataFile[3].trim()));
-                tcmp.put(dataFile[0],Double.parseDouble(dataFile[5].trim()));
+        for (File file : files) {
+            String filePath = file.getAbsolutePath();
+            tloc = TlocCounter.computeTloc(filePath);
+            tassert = TassertCounter.computeAssert(filePath);
+            tcmp = tassert != 0 ? tloc / tassert : 0;
+
+            if (tassert != 0) {
+                tcmps.put(filePath, tcmp);
+                tlocs.put(filePath, tloc);
             }
         }
 
+        // calculer le seuil
+        // si le nombre de files calculer n'est pas un entier on prend le plancher
+        int fileAmount = tlocs.size() * Integer.parseInt(Seuil) / 100;
+
         // order files by their tloc
-        Map<String, Double> orderedTloc = sortByValue(tloc);
+        Map<String, Double> orderedTloc = sortByValue(tlocs);
         List<String> tlocKeys = new ArrayList<>(orderedTloc.keySet());
         Collections.reverse(tlocKeys);
 
         // order files by their tcmp
-        Map<String, Double> orderedTcmp = sortByValue(tcmp);
+        Map<String, Double> orderedTcmp = sortByValue(tcmps);
         List<String> tcmpKeys = new ArrayList<>(orderedTcmp.keySet());
         Collections.reverse(tcmpKeys);
 
@@ -50,18 +53,18 @@ public class TropComp {
         int added = 0;
 
         // extract amount wanted
-        for (String key: tcmpKeys){
-            if (added < fileAmount){
+        for (String key : tcmpKeys) {
+            if (added < fileAmount) {
                 keylist.add(key);
                 added++;
             }
         }
 
         // Add if files are also in top <seuil>% of tloc
-        for (String file: tlocKeys){
-            if (fileAmount > 0){
-                for (String key: keylist){
-                    if(Objects.equals(key, file)){
+        for (String file : tlocKeys) {
+            if (fileAmount > 0) {
+                for (String key : keylist) {
+                    if (Objects.equals(key, file)) {
                         output.append(Tls.tls(key));
                     }
                 }
@@ -71,28 +74,46 @@ public class TropComp {
 
         return output.toString();
     }
+
     public static void main(String[] args) throws IOException {
-        if ((args.length) == 2){
+        if ((args.length) == 2) {
             System.out.println(computeTropComp(args[0], args[1]));
-        }
-        else{
+        } else {
             System.out.println("Veuillez entrer un chemin de fichier ainsi que le seuil souhaite!");
         }
 
     }
 
+    public static ArrayList<File> listAllFiles(String filePath) {
+        List<File> files = new File(filePath).isDirectory() ?
+                List.of(Objects.requireNonNull(new File(filePath).listFiles())) : List.of(new File(filePath));
 
-        public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-            List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
-            list.sort(Map.Entry.comparingByValue());
-
-            Map<K, V> result = new LinkedHashMap<>();
-            for (Map.Entry<K, V> entry : list) {
-                result.put(entry.getKey(), entry.getValue());
+        ArrayList<File> filesInPath = new ArrayList<>(files);
+        for (File file : files) {
+            if (file.isDirectory()) {
+                filesInPath.addAll(listAllFiles(file.getAbsolutePath()));
+            } else {
+                if (!(filesInPath.contains(file))) {
+                    filesInPath.add(file);
+                }
             }
-
-            return result;
         }
+
+        return filesInPath;
+    }
+
+
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Map.Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
+    }
 
 
     // source : https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values
