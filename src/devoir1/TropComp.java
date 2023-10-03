@@ -20,15 +20,18 @@ public class TropComp {
         HashMap<String, Double> tlocs = new HashMap<>();
 
         for (File file : files) {
-            String filePath = file.getAbsolutePath();
-            tloc = TlocCounter.computeTloc(filePath);
-            tassert = TassertCounter.computeAssert(filePath);
-            tcmp = tassert != 0 ? tloc / tassert : 0;
+            if (file.getName().endsWith(".java")) {
+                String filePath = file.getAbsolutePath();
+                tloc = TlocCounter.computeTloc(filePath);
+                tassert = TassertCounter.computeAssert(filePath);
+                tcmp = tassert != 0 ? tloc / tassert : 0;
 
-            if (tassert != 0) {
-                tcmps.put(filePath, tcmp);
-                tlocs.put(filePath, tloc);
+                if (tcmp != 0) {
+                    tcmps.put(filePath, tcmp);
+                    tlocs.put(filePath, tloc);
+                }
             }
+
         }
 
         // calculer le seuil
@@ -76,12 +79,14 @@ public class TropComp {
     }
 
     public static void main(String[] args) throws IOException {
-        if ((args.length) == 2) {
-            System.out.println(computeTropComp(args[0], args[1]));
-        } else {
+        if (!((args.length) == 2)) {
             System.out.println("Veuillez entrer un chemin de fichier ainsi que le seuil souhaite!");
         }
-
+        String[] output = computeTropComp(args[0], args[1]).split("\n");
+        for (String s : output) {
+            String relPath = Tls.getRelPath(args[0], s.substring(0, s.indexOf(' ')));
+            System.out.println(relPath + s.substring(s.indexOf(" ")).trim());
+        }
     }
 
     public static ArrayList<File> listAllFiles(String filePath) {
