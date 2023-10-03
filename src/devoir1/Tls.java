@@ -1,10 +1,10 @@
 package devoir1;
-import java.io.*;
+
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Tls {
 
@@ -24,10 +24,11 @@ public class Tls {
             if (file.getName().contains("Test.java")){             // if not test file, ignore
                 String className = file.getName();
                 String packageName = Files.readAllLines(new File(file.getAbsolutePath()).toPath()).stream()
-                        .filter(line -> line.startsWith("package")).findFirst().get();
+                        .filter(line -> line.startsWith("package")).findFirst().orElse("");
                 tloc = TlocCounter.computeTloc(file.getAbsolutePath());
                 tassert = TassertCounter.computeAssert(file.getAbsolutePath());
-                tcmp = tassert != 0 ? (float) tloc / tassert : tloc;
+                tcmp = tassert != 0 ? (float) tloc / tassert : 0;
+                output.append(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf('\\'))).append(", ");
                 output.append(file.getAbsolutePath()).append(", ");
                 if (!Objects.equals(packageName, "")) {
                     output.append(packageName, packageName.indexOf(' ') + 1, packageName.indexOf(';')).append(", ");
