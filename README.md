@@ -3,7 +3,6 @@ CLOE CHANDONNET  20136319,
 SARA HADDAD 20208373
 Lien du GitHub : https://github.com/saraahaddad/Devoir-1-IFT3913/
 
-<div>
 # Comment exécuter les JARs ?
 1. Il faut télécharger les 5 jars (tloc.jar, tassert.jar, tls.jar, tropcomp.jar et utilities.jar)
 2. Selon le fichier donné:
@@ -23,4 +22,4 @@ java devoir1/Tls -o NomDuCSV CheminDEntree
 
 Pour TropComp:
 java devoir1/TropComp -o NomDuCSV CheminDEntree Seuil
-</div>
+
