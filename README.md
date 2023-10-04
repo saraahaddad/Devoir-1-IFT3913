@@ -12,8 +12,9 @@ Lien du GitHub : https://github.com/saraahaddad/Devoir-1-IFT3913/
 # Comment compiler et exécuter le projet ?
 1. à partir du terminal, cd jusqu'à la source
 2. compiler tous les fichiers:
-       "javac devoir1\*.java"
-3. exécuter la classe choisie en mentionnant le package devoir1 dans l'appel, par exemple:
+       "javac devoir1\Tls.java"
+   Ici, Tls pourrait être remplacé par une étoile (*) pour compiler tous les fichiers en même temps
+4. exécuter la classe choisie en mentionnant le package devoir1 dans l'appel, par exemple:
        "java devoir1/Tls C:\Users\15143\OneDrive\OneDrive-UniversitedeMontreal\Documents\GitHub\jfreechart"
 
 # Exécuter avec option afin de générer un fichier CSV
