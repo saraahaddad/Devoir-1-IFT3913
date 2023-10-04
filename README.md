@@ -3,8 +3,10 @@ CLOE CHANDONNET  20136319,
 SARA HADDAD 20208373
 Lien du GitHub : https://github.com/saraahaddad/Devoir-1-IFT3913/
 
-# Comment exécuter le JAR ?
-Il faut 
+# Comment exécuter les JARs ?
+1. Il faut télécharger les 5 jars (tloc.jar, tassert.jar, tls.jar, tropcomp.jar et utilities.jar)
+2. Selon le fichier donné:
+          java -jar nomDuJar.jar Args
 
 # Comment compiler et exécuter le projet ?
 1. à partir du terminal, cd jusqu'à la source
