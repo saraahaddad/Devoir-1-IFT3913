@@ -85,10 +85,12 @@ public class TropComp {
         String[] output = computeTropComp(args[filePathIndex], args[filePathIndex + 1]).split("\n");
 
         for (int i = 0; i < output.length; i++) {
-            String s = output[i];
-            String relPath = Utilities.getRelPath(args[filePathIndex], s.substring(0, s.indexOf(' ')));
-            output[i] = s.replace(s.substring(0, s.indexOf(' ')), relPath);
-            System.out.println(output[i]);
+            if (!output[i].isEmpty()) {
+                String s = output[i];
+                String relPath = Utilities.getRelPath(args[filePathIndex], s.substring(0, s.indexOf(' ')));
+                output[i] = s.replace(s.substring(0, s.indexOf(' ')), relPath);
+                System.out.println(output[i]);
+            }
         }
 
         if (args[0].equals("-o")) {
