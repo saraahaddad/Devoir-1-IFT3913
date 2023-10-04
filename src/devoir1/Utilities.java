@@ -68,4 +68,6 @@ public class Utilities {
         return filesInPath;
     }
 
+    public static void main(String[] args){}
+
 }
