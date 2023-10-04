@@ -4,7 +4,7 @@ SARA HADDAD 20208373
 Lien du GitHub : https://github.com/saraahaddad/Devoir-1-IFT3913/
 
 # Comment exécuter les JARs ?
-1. Il faut télécharger les 5 jars (tloc.jar, tassert.jar, tls.jar, tropcomp.jar et utilities.jar)
+1. Il faut télécharger le dossier contenant les 5 jars (tloc.jar, tassert.jar, tls.jar, tropcomp.jar et utilities.jar)
 2. Ouvrir un terminal à partir de SARA-CLOE-TP1
 3. Ensuite dans son terminal entrer la commande suivante (donner le nom approprié du jar souhaité et de ses arguments correspondants):
           java -jar nomDuJar.jar Args
